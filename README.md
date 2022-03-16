@@ -19,3 +19,6 @@ https://docs.google.com/spreadsheets/d/10lIpFcBLeYwN74FDSFW_fbLIZs5zf-YVRs1qyWah
 1. Go to **Scum menu -> To beautiful JSON format** and wait for a json string.
 7. Copy all the text inside the box to your server setting.
 8. Restart the server.
+
+## Setting explanation
+https://store.steampowered.com/news/app/513710/view/3131696199142015448
