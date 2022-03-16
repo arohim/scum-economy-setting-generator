@@ -22,3 +22,6 @@ https://docs.google.com/spreadsheets/d/10lIpFcBLeYwN74FDSFW_fbLIZs5zf-YVRs1qyWah
 
 ## Setting explanation
 https://store.steampowered.com/news/app/513710/view/3131696199142015448
+
+Show your appreciate, buy me a coffe 
+https://www.paypal.com/paypalme/peacefullandserver?country.x=TH&locale.x=en_GB
