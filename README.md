@@ -11,7 +11,7 @@ https://docs.google.com/spreadsheets/d/10lIpFcBLeYwN74FDSFW_fbLIZs5zf-YVRs1qyWah
 1. Go to **File -> Make a copy** -- copy the sheet along with the script.
 2. Go to **Extension -> Apps Script**
 3. Allow the permission if needed.
-4. Press on run button.
+4. Press on **Run** button once.
 5. Go back to the sheet. 
 
 
