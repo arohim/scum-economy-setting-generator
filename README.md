@@ -23,5 +23,4 @@ https://bit.ly/3wawzSA contains the format and all items for setting your econom
 ## Setting explanation
 https://store.steampowered.com/news/app/513710/view/3131696199142015448
 
-Show your appreciate, buy me a coffee
-https://www.paypal.com/paypalme/peacefullandserver?country.x=TH&locale.x=en_GB
+Show your appreciate, buy me a coffee - https://www.buymeacoffee.com/arohimsama8
