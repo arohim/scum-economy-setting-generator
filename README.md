@@ -3,7 +3,7 @@
 A Google Sheets script that will take a sheet in a specific format and return an EconomyOverride.json file 
 
 ## Google Sheet
-https://docs.google.com/spreadsheets/d/10lIpFcBLeYwN74FDSFW_fbLIZs5zf-YVRs1qyWah_f0/edit?usp=sharing contains the format and all items for setting your economy system on your Scum server 
+https://bit.ly/3wawzSA contains the format and all items for setting your economy system on your Scum server 
 
 
 ## Installing
