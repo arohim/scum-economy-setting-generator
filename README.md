@@ -6,7 +6,7 @@ A Google Sheets script that will take a sheet in a specific format and return an
 You can learn everything and see the demo on https://www.youtube.com/watch?v=-dj45Yxt_pQ
 
 ## Google Sheet
-https://bit.ly/3wawzSA contains the format and all items for setting your economy system on your Scum server 
+https://bit.ly/3thCRy1 contains the format and all items for setting your economy system on your Scum server 
 
 
 ## Installing
