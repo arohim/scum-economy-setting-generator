@@ -29,9 +29,11 @@ function makeJsonString(beautifulFormat) {
   var enableEconomy = rootSheet.getRange("B2").getValue().toString();
   var economyResetTimeHours = rootSheet.getRange("B3").getValue().toString();
   var pricesRandomizationTimeHours = rootSheet.getRange("B4").getValue().toString();
-  var fullyRestockTradeableHours = rootSheet.getRange("B5").getValue().toString();
-  var traderFundsChangeRatePerHourMultiplier = rootSheet.getRange("B6").getValue().toString();
+  var fullyRestockTradeableHours = parseFloat(rootSheet.getRange("B5").getValue()).toFixed(1);
+  var traderFundsChangeRatePerHourMultiplier = parseFloat(rootSheet.getRange("B6").getValue()).toFixed(1);
   var tradersUnlimitedFunds = rootSheet.getRange("B7").getValue().toString();
+  var tradersUnlimitedStock = getValurOrDefault(rootSheet.getRange("B8").getValue().toString(), "0");
+  var enableLogging = getValurOrDefault(rootSheet.getRange("B9").getValue().toString(), "0");
   var limitedTradeables = makeLimitedTradeables();
   var traders = makeTraders();
 
@@ -43,6 +45,8 @@ function makeJsonString(beautifulFormat) {
       "fully-restock-tradeable-hours": fullyRestockTradeableHours,
       "trader-funds-change-rate-per-hour-multiplier": traderFundsChangeRatePerHourMultiplier,
       "traders-unlimited-funds": tradersUnlimitedFunds,
+      "traders-unlimited-stock": tradersUnlimitedStock,
+      "economy-logging": enableLogging,
       "limited-tradeables": limitedTradeables,
       "traders": traders
     }
@@ -62,6 +66,7 @@ function makeTraders() {
   var [A_0_Armory, B_4_Armory, C_2_Armory, Z_3_Armory] = [{}, {}, {}, {}];
   var [A_0_Trader, B_4_Trader, C_2_Trader, Z_3_Trader] = [{}, {}, {}, {}];
   var [A_0_BoatShop, B_4_BoatShop, C_2_BoatShop, Z_3_BoatShop] = [{}, {}, {}, {}];
+  var [A_0_Bartender, B_4_Bartender, C_2_Bartender, Z_3_Bartender] = [{}, {}, {}, {}];
 
   var allShopSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("All_Shop");
   var isAllShopSheetAvailable = allShopSheet != null;
@@ -76,24 +81,29 @@ function makeTraders() {
     [A_0_Armory, B_4_Armory, C_2_Armory, Z_3_Armory] = getDataByShopType("Armory");
     [A_0_Trader, B_4_Trader, C_2_Trader, Z_3_Trader] = getDataByShopType("Trader");
     [A_0_BoatShop, B_4_BoatShop, C_2_BoatShop, Z_3_BoatShop] = getDataByShopType("BoatShop");
+    [A_0_Bartender, B_4_Bartender, C_2_Bartender, Z_3_Bartender] = getDataByShopType("Bartender");
   }
   return {
     "A_0_Armory": A_0_Armory,
     "A_0_BoatShop": A_0_BoatShop,
     "A_0_Mechanic": A_0_Mechanic,
     "A_0_Trader": A_0_Trader,
+    "A_0_Bartender": A_0_Bartender,
     "B_4_Armory": B_4_Armory,
     "B_4_BoatShop": B_4_BoatShop,
     "B_4_Mechanic": B_4_Mechanic,
     "B_4_Trader": B_4_Trader,
+    "B_4_Bartender": B_4_Bartender,
     "C_2_Armory": C_2_Armory,
     "C_2_BoatShop": C_2_BoatShop,
     "C_2_Mechanic": C_2_Mechanic,
     "C_2_Trader": C_2_Trader,
+    "C_2_Bartender": C_2_Bartender,
     "Z_3_Armory": Z_3_Armory,
     "Z_3_BoatShop": Z_3_BoatShop,
     "Z_3_Mechanic": Z_3_Mechanic,
-    "Z_3_Trader": Z_3_Trader
+    "Z_3_Trader": Z_3_Trader,
+    "Z_3_Bartender": Z_3_Bartender
   };
 }
 
@@ -133,15 +143,17 @@ function getShopConfigurations(sheetName) {
   var items = [];
   var dataValues = sheet.getRange(2, 1, sheet.getMaxRows(), sheet.getMaxColumns()).getValues();
   for (var i = 0; i < sheet.getMaxRows() - 1; i++) {
-    var tradeableCodeValue = dataValues[i][0];
-    var basePurchasePriceValue = dataValues[i][1].toString();
-    var baseSellPriceValue = dataValues[i][2].toString();
-    var deltaPriceValue = dataValues[i][3].toString();
-    var canBePurchasedHeaderValue = dataValues[i][4].toString();
+    var tradeableCodeValue = dataValues[i][0].toString().trim();
+    var basePurchasePriceValue = getValurOrDefault(dataValues[i][1].toString().trim(), -1);
+    var baseSellPriceValue = getValurOrDefault(dataValues[i][2].toString().trim(), -1);
+    var deltaPriceValue = getValurOrDefault(dataValues[i][3].toString().trim(), -1);
+    var canBePurchasedHeaderValue = getValurOrDefault(dataValues[i][4].toString().trim(), "default");
 
     if (isDefaultOrEmptyItem(tradeableCodeValue, basePurchasePriceValue, baseSellPriceValue, deltaPriceValue, canBePurchasedHeaderValue)) {
       continue;
     }
+    
+    // Logger.log("tradeableCodeValue " + tradeableCodeValue + " basePurchasePriceValue " + basePurchasePriceValue);
     var item = {
       [tradeableCodeHeader]: tradeableCodeValue,
       [basePurchasePriceHeader]: basePurchasePriceValue,
@@ -152,6 +164,13 @@ function getShopConfigurations(sheetName) {
     items.push(item);
   }
   return items;
+}
+
+function getValurOrDefault(value, defaultValue){
+  if(value.trim() == ''){
+    return defaultValue;
+  }
+  return value;
 }
 
 function isDefaultOrEmptyItem(tradeableCodeValue, basePurchasePriceValue, baseSellPriceValue, deltaPriceValue, canBePurchasedHeaderValue) {
